@@ -1,25 +1,34 @@
 import gymnasium as gym
-import ale_py
 from gymnasium.utils.play import play
-import pygame
 
-gym.register_envs(ale_py)
 
-# play() NON accetta render_mode="human"
-env = gym.make("ALE/MsPacman-v5", render_mode="rgb_array")
+def main():
+    # LunarLander-v3 con render in RGB per play()
+    env = gym.make("LunarLander-v3", render_mode="rgb_array")
 
-key_to_action = {
-    (pygame.K_LEFT,): 3,    # LEFT
-    (pygame.K_RIGHT,): 2,   # RIGHT
-    (pygame.K_UP,): 1,      # UP
-    (pygame.K_DOWN,): 4,    # DOWN
+    # Azioni discrete:
+    # 0 = niente
+    # 1 = motore sinistro
+    # 2 = motore principale
+    # 3 = motore destro
+    keys_to_action = {
+        "": 0,    # nessun tasto
+        "w": 2,   # motore principale (su)
+        "a": 1,   # motore sinistro
+        "d": 3,   # motore destro
+        "wa": 2,  # se tieni W+A, tengo il principale
+        "wd": 2,  # W+D idem
+    }
 
-    # diagonali opzionali
-    (pygame.K_UP, pygame.K_RIGHT): 5,      # UPRIGHT
-    (pygame.K_UP, pygame.K_LEFT): 6,       # UPLEFT
-    (pygame.K_DOWN, pygame.K_RIGHT): 7,    # DOWNRIGHT
-    (pygame.K_DOWN, pygame.K_LEFT): 8,     # DOWNLEFT
-}
+    play(
+        env,
+        keys_to_action=keys_to_action,
+        noop=0,
+        fps=30,
+    )
 
-play(env, keys_to_action=key_to_action, fps=30, zoom=2)
-env.close()
+    env.close()
+
+
+if __name__ == "__main__":
+    main()
