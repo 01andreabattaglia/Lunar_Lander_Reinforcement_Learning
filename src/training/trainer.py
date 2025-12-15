@@ -43,7 +43,7 @@ class Trainer:
         # Use PyTorch's built-in MSE loss
         self.loss_fn = nn.MSELoss()
         
-        self.device = torch.device("cpu")  # Can be changed to "cuda" if GPU available
+        self.device = torch.device("cuda")  # Can be changed to "cuda" if GPU available
         self.q_online.to(self.device)
         self.q_target.to(self.device)
     

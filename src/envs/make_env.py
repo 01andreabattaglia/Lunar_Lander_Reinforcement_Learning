@@ -1,7 +1,7 @@
 import gymnasium as gym
 
 
-def make_env(env_id="LunarLander-v3", render_mode="rgb_array"):
+def make_env(env_id="LunarLander-v3", render_mode="human"):
     """
     Factory function to create and return a Gymnasium environment.
     
