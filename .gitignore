@@ -1,1 +1,5 @@
+.idea/
 .venv/
+src/agents/__pycache__/
+src/envs/__pycache__/
+src/replay/__pycache__/
