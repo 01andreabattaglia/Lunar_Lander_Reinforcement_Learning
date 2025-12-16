@@ -3,3 +3,4 @@ pygame==2.6.1
 ufal.pybox2d==2.3.10.4
 numpy>=1.24
 torch>=2.0.0
+matplotlib>=3.5.0
