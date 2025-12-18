@@ -30,6 +30,9 @@ class QNetwork(nn.Module):
         """
         super(QNetwork, self).__init__()
         
+        # Detect device (prioritize CUDA if available)
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        
         self.fc1 = nn.Linear(input_size, 128)
         self.relu1 = nn.ReLU()
         
@@ -41,12 +44,16 @@ class QNetwork(nn.Module):
         
         self.fc4 = nn.Linear(512, output_size)
         # No activation for output layer (Linear)
+        
+        # Move network to device
+        self.to(self.device)
     
     def forward(self, state):
         """
         Compute Q-values for a given state.
         
-        Args:torch.Tensor or np.ndarray): Input state with shape (8,) or (batch_size, 8)
+        Args:
+            state (torch.Tensor or np.ndarray): Input state with shape (8,) or (batch_size, 8)
         
         Returns:
             torch.Tensor: Q-values for each action with shape (4,) or (batch_size, 4)
@@ -54,6 +61,9 @@ class QNetwork(nn.Module):
         # Convert numpy array to tensor if needed
         if not isinstance(state, torch.Tensor):
             state = torch.tensor(state, dtype=torch.float32)
+        
+        # Move state to the same device as the network
+        state = state.to(self.device)
         
         # Ensure 2D shape for batch processing
         if state.dim() == 1:
