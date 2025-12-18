@@ -12,6 +12,6 @@ def make_env(env_id="LunarLander-v3", render_mode="human"):
     Returns:
         gym.Env: The created environment
     """
-    env = gym.make(env_id, continuous=False, gravity=-10.0,
+    env = gym.make(env_id, render_mode=render_mode, continuous=False, gravity=-10.0,
                enable_wind=False, wind_power=15.0, turbulence_power=1.5)
     return env

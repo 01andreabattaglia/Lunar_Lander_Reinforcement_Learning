@@ -1,0 +1,17 @@
+# ============ TRAINING HYPERPARAMETERS ============
+# Environment
+num_episodes = 800  # Total number of training episodes
+log_interval = 10  # Print stats every N episodes
+
+# Training
+train_every = 4  # Training step every N environment steps
+batch_size = 64
+learning_rate = 0.001
+gamma = 0.99  # Discount factor
+interpolation_parameter = 1e-3  # Soft update rate for target network
+replay_buffer_size = 50000
+
+# Exploration
+epsilon_starting_value = 1  # Initial exploration rate
+epsilon_ending_value = 0.01   # Final exploration rate
+epsilon_decay_value = 0.995   # Decay factor per episode
