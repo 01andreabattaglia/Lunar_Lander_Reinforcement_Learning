@@ -35,9 +35,9 @@ def categorize_episode_outcome(obs, episode_steps, last_step_reward):
 
 def get_outcome_icon(outcome):
     icons = {
-        "landed_success": "🚀",
-        "crashed": "💥",
-        "out_of_bounds": "📍",
-        "time_limit": "⏱️",
+        "landed_success": "🟢",
+        "crashed": "🔴",
+        "out_of_bounds": "🟡",
+        "time_limit": "🔵",
     }
     return icons.get(outcome, "❓")
