@@ -15,7 +15,8 @@ class Trainer:
     - q_target: A copy used for computing TD targets (updated periodically)
     """
     
-    def __init__(self, q_network, learning_rate=0.001, replay_buffer=None, gamma=0.99, interpolation_parameter=5e-3):
+    def __init__(self, q_network, learning_rate=0.001, replay_buffer=None, gamma=0.99, 
+                 update_mode='soft', tau=1e-3, target_update_freq=1000):
         """
         Initialize the Trainer with dual Q-Networks.
         
@@ -24,20 +25,21 @@ class Trainer:
             learning_rate (float): Learning rate for Adam optimizer
             replay_buffer (ReplayBuffer): The replay buffer for sampling batches
             gamma (float): Discount factor for future rewards
-            interpolation_parameter (float): Soft update rate (0-1)
-                - 0: keeps target network unchanged
-                - 1: fully replaces target with online
-                - typical: 1e-3 (0.1% online, 99.9% target)
+            update_mode (str): 'soft' for soft update every step, 'hard' for hard update every N steps
+            tau (float): Soft update interpolation rate (only used if update_mode='soft')
+            target_update_freq (int): Hard update frequency (only used if update_mode='hard')
         """
         # Online network (being trained)
         self.q_online = q_network
         
-        # Target network (copy of online, updated with soft update every step)
+        # Target network (copy of online, updated periodically)
         self.q_target = deepcopy(q_network)
         
         self.replay_buffer = replay_buffer
         self.gamma = gamma
-        self.interpolation_parameter = interpolation_parameter
+        self.update_mode = update_mode  # 'soft' or 'hard'
+        self.tau = tau  # Soft update rate
+        self.target_update_freq = target_update_freq  # Hard update frequency
         self.step_count = 0  # Track number of training steps
         
         # Use PyTorch's built-in Adam optimizer (only for online network)
@@ -98,23 +100,29 @@ class Trainer:
         loss.backward()              # Compute gradients
         self.optimizer.step()        # Update weights
         
-        # Soft update target network at every training step
+        # Update target network based on selected mode
         self.step_count += 1
-        self._update_target_network()
+        if self.update_mode == 'soft':
+            self._soft_update_target_network()
+        elif self.update_mode == 'hard' and self.step_count % self.target_update_freq == 0:
+            self._hard_update_target_network()
         
         return loss.item()
     
-    def _update_target_network(self):
+    def _soft_update_target_network(self):
         """
         Perform soft update of target network using interpolation.
-        Called at every training step.
+        Called at every training step when update_mode='soft'.
         
-        target_params = interpolation_parameter * online_params + (1 - interpolation_parameter) * target_params
-        
-        - interpolation_parameter = 0: target stays unchanged
-        - interpolation_parameter = 1: target becomes exact copy of online
-        - interpolation_parameter = 1e-3 (typical): 0.1% from online, 99.9% from target
+        target_params = tau * online_params + (1 - tau) * target_params
         """
         for target_param, online_param in zip(self.q_target.parameters(), self.q_online.parameters()):
-            target_param.data = (self.interpolation_parameter * online_param.data + 
-                                (1.0 - self.interpolation_parameter) * target_param.data)
+            target_param.data = self.tau * online_param.data + (1.0 - self.tau) * target_param.data
+    
+    def _hard_update_target_network(self):
+        """
+        Perform hard update of target network.
+        Copies all weights from online network to target network.
+        Called every target_update_freq training steps when update_mode='hard'.
+        """
+        self.q_target.load_state_dict(self.q_online.state_dict())

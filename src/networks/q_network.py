@@ -74,10 +74,6 @@ class QNetwork(nn.Module):
         x = self.relu3(self.fc3(x))
         q_values = self.fc4(x)
         
-        # Return squeezed tensor if input was 1D
-        if q_values.shape[0] == 1:
-            return q_values.squeeze(0)
-        
         return q_values
     
     def predict(self, state):
