@@ -29,8 +29,6 @@ def categorize_episode_outcome(obs, episode_steps, last_step_reward):
     if last_step_reward <= -90.0:
         return "crashed"
 
-    # 4) Default
-    return "out_of_bounds"
 
 
 def get_outcome_icon(outcome):
