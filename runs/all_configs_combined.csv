@@ -21,3 +21,4 @@ run_id,model_type,num_episodes,log_interval,train_every,batch_size,learning_rate
 20,DDQN,800,20,4,64,0.0001,0.99,hard,0.001,10,50000,1,0.01,0.995
 21,DDQN,800,20,4,64,0.0001,0.99,hard,0.001,100,50000,1,0.01,0.995
 22,DDQN,800,20,4,64,0.0001,0.99,hard,0.001,10,100000,1,0.01,0.995
+23,REINFORCE,3000,20,NA,NA,0.0025,0.99,NA,NA,NA,NA,NA,NA,NA
