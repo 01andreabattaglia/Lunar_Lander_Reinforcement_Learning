@@ -3,16 +3,16 @@ import torch
 from torch.distributions import Categorical
 
 
-class REINFORCEAgent:
+class StochasticAgent:
     """
-    A REINFORCE agent that uses a Policy Network to select actions.
+    A stochastic agent that uses a Policy Network to select actions.
     
     Samples actions from the policy's probability distribution.
     """
     
     def __init__(self, action_space, policy_network):
         """
-        Initialize the REINFORCEAgent.
+        Initialize the StochasticAgent.
         
         Args:
             action_space (int): Number of possible actions (e.g., 4 for LunarLander)
