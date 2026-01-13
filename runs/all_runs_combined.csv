@@ -32599,3 +32599,8 @@ run_id,episode,reward,length,terminated,truncated,outcome
 27,2998,-151.46,243,1,0,crashed
 27,2999,-65.42,344,1,0,crashed
 27,3000,1.5,231,1,0,crashed
+28,1,-82.87,66,1,0,crashed
+28,2,-118.0,71,1,0,crashed
+28,3,-179.14,74,1,0,crashed
+28,4,-130.75,78,1,0,crashed
+28,5,-86.61,87,1,0,crashed
