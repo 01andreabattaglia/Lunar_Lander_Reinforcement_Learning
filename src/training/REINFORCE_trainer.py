@@ -17,7 +17,7 @@ class Trainer:
     """
     
     def __init__(self, policy_network, learning_rate=0.001, gamma=0.99, 
-                 baseline=False, value_network=None, value_learning_rate=0.001):
+                 baseline=False, value_network=None, value_learning_rate=0.001, max_grad_norm=0.5):
         """
         Initialize the REINFORCE Trainer.
         
@@ -28,10 +28,12 @@ class Trainer:
             baseline (bool): Whether to use baseline (value network) for variance reduction
             value_network (ValueNetwork): The Value Network for baseline (required if baseline=True)
             value_learning_rate (float): Learning rate for value network optimizer
+            max_grad_norm (float): Max norm for gradient clipping (set to None or 0 to disable)
         """
         self.policy_network = policy_network
         self.gamma = gamma
         self.baseline = baseline
+        self.max_grad_norm = max_grad_norm
         
         # Use PyTorch's built-in Adam optimizer for policy
         self.optimizer = optim.Adam(self.policy_network.parameters(), lr=learning_rate)
@@ -144,6 +146,9 @@ class Trainer:
             # Update policy network
             self.optimizer.zero_grad()
             policy_loss.backward()
+            # Gradient clipping to prevent exploding gradients
+            if self.max_grad_norm is not None and self.max_grad_norm > 0:
+                torch.nn.utils.clip_grad_norm_(self.policy_network.parameters(), max_norm=self.max_grad_norm)
             self.optimizer.step()
             
             # Update value network with MSE loss: (G_t - V(s_t))^2
@@ -151,6 +156,9 @@ class Trainer:
             
             self.value_optimizer.zero_grad()
             value_loss.backward()
+            # Gradient clipping to prevent exploding gradients
+            if self.max_grad_norm is not None and self.max_grad_norm > 0:
+                torch.nn.utils.clip_grad_norm_(self.value_network.parameters(), max_norm=self.max_grad_norm)
             self.value_optimizer.step()
         else:
             # Standard REINFORCE without baseline
@@ -165,6 +173,9 @@ class Trainer:
             # Backpropagation and optimization
             self.optimizer.zero_grad()  # Clear gradients
             policy_loss.backward()      # Compute gradients
+            # Gradient clipping to prevent exploding gradients
+            if self.max_grad_norm is not None and self.max_grad_norm > 0:
+                torch.nn.utils.clip_grad_norm_(self.policy_network.parameters(), max_norm=self.max_grad_norm)
             self.optimizer.step()       # Update weights
         
         # Clear episode data

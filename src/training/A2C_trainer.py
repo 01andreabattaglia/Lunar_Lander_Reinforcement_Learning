@@ -23,7 +23,7 @@ class Trainer:
     
     def __init__(self, policy_network, value_network, 
                  actor_learning_rate=0.001, critic_learning_rate=0.001, gamma=0.99,
-                 n_steps=5, train_every=4, n_envs=8):
+                 n_steps=5, train_every=4, n_envs=8, max_grad_norm=0.5):
         """
         Initialize the N-step A2C Trainer.
         
@@ -36,6 +36,7 @@ class Trainer:
             n_steps (int): Number of steps for n-step returns (default: 5)
             train_every (int): Update networks every N steps (default: 4)
             n_envs (int): Number of parallel environments (default: 8)
+            max_grad_norm (float): Max norm for gradient clipping (set to None or 0 to disable)
         """
         self.policy_network = policy_network
         self.value_network = value_network
@@ -43,6 +44,7 @@ class Trainer:
         self.n_steps = n_steps
         self.train_every = train_every
         self.n_envs = n_envs
+        self.max_grad_norm = max_grad_norm
         
         # Device setup
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -133,10 +135,12 @@ class Trainer:
         # Track episode rewards
         for i in range(self.n_envs):
             self.episode_rewards[i].append(rewards[i])
-            self.episode_lengths[i] += 1
             
             if dones[i]:
                 # Episode completed for environment i
+                # Increment length here to count this final step
+                self.episode_lengths[i] += 1
+                
                 total_reward = sum(self.episode_rewards[i])
                 length = self.episode_lengths[i]
                 self.completed_episodes.append({
@@ -147,6 +151,9 @@ class Trainer:
                 # Reset tracking for this environment
                 self.episode_rewards[i] = []
                 self.episode_lengths[i] = 0
+            else:
+                # Not done yet, increment length for next iteration
+                self.episode_lengths[i] += 1
         
         self.step_count += 1
         self.global_step += 1
@@ -260,6 +267,9 @@ class Trainer:
         
         self.actor_optimizer.zero_grad()
         actor_loss.backward()
+        # Gradient clipping to prevent exploding gradients
+        if self.max_grad_norm is not None and self.max_grad_norm > 0:
+            torch.nn.utils.clip_grad_norm_(self.policy_network.parameters(), max_norm=self.max_grad_norm)
         self.actor_optimizer.step()
         
         # =====================
@@ -270,6 +280,9 @@ class Trainer:
         
         self.critic_optimizer.zero_grad()
         critic_loss.backward()
+        # Gradient clipping to prevent exploding gradients
+        if self.max_grad_norm is not None and self.max_grad_norm > 0:
+            torch.nn.utils.clip_grad_norm_(self.value_network.parameters(), max_norm=self.max_grad_norm)
         self.critic_optimizer.step()
         
         # Track statistics
