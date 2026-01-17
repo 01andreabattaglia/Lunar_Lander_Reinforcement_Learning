@@ -20,7 +20,7 @@ def categorize_episode_outcome(obs, episode_steps, last_step_reward):
         return "time_limit"
 
     # 1) Out of viewport rule
-    if abs(x) > 1.0:
+    if abs(x) >= 1.0 or y > 2.0:
         return "out_of_bounds"
 
     # 2-3) Terminal bonus/penalty detection (thresholds, not exact equality)
