@@ -1,4 +1,4 @@
-# 🚀 A Comparative Study of Reinforcement Learning Algorithms on the Lunar Lander Environment
+# A Comparative Study of Reinforcement Learning Algorithms on the Lunar Lander Environment
 
 <p align="center">
   <img src="videos/trained_agent.gif" alt="Trained Agent" width="400">
@@ -11,7 +11,7 @@ A comprehensive reinforcement learning project comparing **value-based** and **p
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)
 ![Gymnasium](https://img.shields.io/badge/Gymnasium-1.2.2-green.svg)
 
-## 📋 Overview
+## Overview
 
 This project implements and compares four reinforcement learning algorithms:
 
@@ -22,7 +22,7 @@ This project implements and compares four reinforcement learning algorithms:
 | **REINFORCE** | Policy Gradient | Monte Carlo policy gradient with optional baseline |
 | **A2C** | Actor-Critic | Advantage Actor-Critic with n-step returns |
 
-## 🎮 Environment
+## Environment
 
 **LunarLander-v3** from Gymnasium:
 - **State space**: 8-dimensional continuous (position, velocity, angle, leg contact)
@@ -30,7 +30,7 @@ This project implements and compares four reinforcement learning algorithms:
 - **Reward**: +100 for landing, -100 for crashing, small rewards for movement towards pad
 - **Goal**: Land safely between the flags with minimal fuel usage
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── DQN_run.ipynb          # DQN/DDQN training notebook
@@ -63,7 +63,7 @@ This project implements and compares four reinforcement learning algorithms:
 └── videos/                           # Recorded agent videos
 ```
 
-## 🔧 Installation
+## Installation
 
 ```bash
 # Clone the repository
@@ -79,7 +79,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## 🚀 Usage
+## Usage
 
 ### Train DQN / Double DQN
 
@@ -126,7 +126,7 @@ python game.py
 - **→** Right engine
 - **ESC** Quit
 
-## 🧠 Algorithms
+## Algorithms
 
 ### DQN (Deep Q-Network)
 
@@ -166,22 +166,25 @@ $$G_t^{(n)} = r_t + \gamma r_{t+1} + ... + \gamma^{n-1} r_{t+n-1} + \gamma^n V(s
 - N-step bootstrapping (configurable)
 - Gradient clipping for stability
 
-## 📊 Experiments
+## Experiments
 
 Over 50 experiments tracked in `runs/all_configs_combined.csv`:
 
 
 Analyze results with `runs/runs_comparison.ipynb`.
 
-## 📈 Results
+## Results
 
 Episode outcomes are classified as:
-- 🟢 **Landed Success**: Safe landing (+100 reward)
-- 🔴 **Crashed**: Ground collision (-100 reward)
-- 🟡 **Out of Bounds**: Left viewport
-- 🔵 **Time Limit**: Exceeded 1000 steps
+- **Landed Success**: Safe landing (+100 reward)
+- **Crashed**: Ground collision (-100 reward)
+- **Out of Bounds**: Left viewport
+- **Time Limit**: Exceeded 1000 steps
 
-## 🛠️ Network Architectures
+<img width="989" height="490" alt="image" src="https://github.com/user-attachments/assets/ef76e6e2-f94d-4060-85a0-b34833c3b01a" />
+
+
+## Network Architectures
 
 ### Q-Network (DQN/DDQN)
 ```
@@ -198,7 +201,7 @@ Input(8) → FC(16) → ReLU → FC(16) → ReLU → FC(16) → ReLU → FC(4) �
 Input(8) → FC(16) → ReLU → FC(16) → ReLU → FC(16) → ReLU → FC(1)
 ```
 
-## 📚 References
+## References
 
 ### LunarLander-Specific Studies
 - [Comparison and Hyperparameter Analysis of Four Reinforcement Learning Algorithms in the Lunar Lander Environment](https://doi.org/10.1007/978-981-97-2200-6_24) - Y. Lu, Springer 2024
@@ -206,6 +209,6 @@ Input(8) → FC(16) → ReLU → FC(16) → ReLU → FC(16) → ReLU → FC(1)
 - [Evaluating Reinforcement Learning algorithms for LunarLander-v2: A Comparative Analysis](https://doi.org/10.21203/rs.3.rs-5939959/v2) - A. Awasthi, 2025
 - [LunarLander-v2 REINFORCE Implementation](https://github.com/riccardocadei/LunarLander-v2-REINFORCE) - R. Cadei
 
-## 📄 License
+## License
 
 This project is for educational purposes as part of the Data Science program at University of Trento.
