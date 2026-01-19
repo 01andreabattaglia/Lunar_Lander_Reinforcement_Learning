@@ -139,7 +139,7 @@ $$Q(s,a) \leftarrow r + \gamma \max_{a'} Q_{target}(s', a')$$
 - Target network with soft update ($\tau = 0.001$) or hard update
 - ε-greedy exploration with decay
 
-### Double DQN
+### DDQN (Double DQN)
 
 Decouples action selection from evaluation to reduce overestimation:
 
