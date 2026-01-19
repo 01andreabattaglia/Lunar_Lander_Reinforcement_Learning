@@ -101,14 +101,14 @@ Open `PG_run.ipynb` and configure:
 
 ```python
 model_type = 'REINFORCE'      # 'REINFORCE' or 'A2C'
-num_episodes = 800
-learning_rate = 0.001         # Actor/policy learning rate
+num_episodes = 3000
+learning_rate = 0.0025        # Actor/policy learning rate
 gamma = 0.99                  # Discount factor
 max_grad_norm = 2.0           # Gradient clipping (None to disable)
 
 # REINFORCE specific
 baseline = True               # Use value baseline for variance reduction
-value_learning_rate = 0.001   # Critic/value network learning rate
+value_learning_rate = 0.0025  # Critic/value network learning rate
 
 # A2C specific
 n_envs = 1                    # Number of parallel environments
