@@ -181,6 +181,9 @@ Episode outcomes are classified as:
 - 🟡 **Out of Bounds**: Left viewport
 - 🔵 **Time Limit**: Exceeded 1000 steps
 
+<img width="989" height="490" alt="image" src="https://github.com/user-attachments/assets/5d8acb25-68ed-403b-bbd6-c62d6b3f9491" />
+
+
 ## 🛠️ Network Architectures
 
 ### Q-Network (DQN/DDQN)
