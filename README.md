@@ -208,6 +208,7 @@ Input(8) → FC(16) → ReLU → FC(16) → ReLU → FC(16) → ReLU → FC(1)
 - [Comparison of Three Deep Reinforcement Learning Algorithms for Solving the Lunar Lander Problem](https://doi.org/10.2991/978-94-6463-370-2_21) - D. Shen, DAI 2023
 - [Evaluating Reinforcement Learning algorithms for LunarLander-v2: A Comparative Analysis](https://doi.org/10.21203/rs.3.rs-5939959/v2) - A. Awasthi, 2025
 - [LunarLander-v2 REINFORCE Implementation](https://github.com/riccardocadei/LunarLander-v2-REINFORCE) - R. Cadei
+- [A2C-PPO Reinforcement Learning for Machine Learning for Robotics II](https://github.com/ankurkohli007/A2C-PPO-Reinforcement-Learning_Machine-Learning-for-Robotics-II) - A. Kohli
 
 ## License
 
